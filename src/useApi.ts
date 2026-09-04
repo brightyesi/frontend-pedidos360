@@ -1,29 +1,19 @@
 // src/useApi.ts
-import { useMsal } from "@azure/msal-react";
-import { loginRequest } from "./authConfig";
+// Hook que entrega un ApiClient ya ligado a la cuenta MSAL activa.
+// Uso:
+//   const api = useApi();
+//   const data = await api?.get('/pokemones');
 
-export function useApi() {
+import { useMemo } from 'react';
+import { useMsal } from '@azure/msal-react';
+import { createApiClient, type ApiClient } from './api/client';
+
+export function useApi(): ApiClient | null {
   const { instance, accounts } = useMsal();
+  const account = accounts[0] ?? instance.getActiveAccount() ?? null;
 
-  const fetchWithToken = async (url: string) => {
-    const account = accounts[0] || instance.getActiveAccount();
-    if (!account) {
-      throw new Error("No hay una cuenta activa");
-    }
-
-    // Solicitar token silenciosamente (sin redirigir al usuario)
-    const response = await instance.acquireTokenSilent({
-      ...loginRequest,
-      account,
-    });
-
-    // Adjuntar token en el header Bearer
-    return fetch(url, {
-      headers: {
-        Authorization: `Bearer ${response.accessToken}`,
-      },
-    });
-  };
-
-  return { fetchWithToken };
+  return useMemo(() => {
+    if (!account) return null;
+    return createApiClient(instance, account);
+  }, [instance, account]);
 }

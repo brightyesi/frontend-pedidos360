@@ -1,14 +1,23 @@
 // src/App.tsx
-import { useMsal, useIsAuthenticated } from "@azure/msal-react";
-import { InteractionStatus } from "@azure/msal-browser";
-import { loginRequest } from "./authConfig";
-import { ProtectedData } from "./ProtectedData";
-import "./App.css";
+// Estructura de rutas + guards. Este es el archivo que muestra el concepto
+// "guard de ruta": RequireAuth agrupa TODAS las rutas que exigen sesión, y
+// RequireRole las que además exigen un App Role — se agregan más páginas
+// (orders, catalog, ...) anidándolas bajo el guard que corresponda, sin
+// repetir lógica de autenticación/autorización en cada una.
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { useMsal, useIsAuthenticated } from '@azure/msal-react';
+import { InteractionStatus } from '@azure/msal-browser';
+import { loginRequest } from './authConfig';
+import { RequireAuth } from './RequireAuth';
+import { RequireRole } from './RequireRole';
+import { Landing } from './Landing';
+import { Dashboard } from './Dashboard';
+import { AdminDemo } from './AdminDemo';
+import './App.css';
 
-export default function App() {
-  const { instance, accounts, inProgress } = useMsal();
+function Nav() {
+  const { instance, inProgress } = useMsal();
   const isAuthenticated = useIsAuthenticated();
-  const currentUser = accounts[0];
 
   const handleLogin = () => {
     if (inProgress === InteractionStatus.None) {
@@ -19,83 +28,81 @@ export default function App() {
   const handleLogout = () => {
     if (inProgress === InteractionStatus.None) {
       instance
-        .logoutRedirect({ postLogoutRedirectUri: "/" })
+        .logoutRedirect({ postLogoutRedirectUri: '/' })
         .catch((e) => console.error(e));
     }
   };
 
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    isActive ? 'nav-link active' : 'nav-link';
+
   return (
-    <div className="layout">
-      <header className="navbar">
-        <div className="logo">
-          ⚡ <span>Portal MiApp</span>
-        </div>
-        <div>
-          {isAuthenticated ? (
-            <button
-              className="btn btn-logout"
-              onClick={handleLogout}
-              disabled={inProgress !== InteractionStatus.None}
-            >
-              Cerrar Sesión
-            </button>
-          ) : (
-            <button
-              className="btn btn-login"
-              onClick={handleLogin}
-              disabled={inProgress !== InteractionStatus.None}
-            >
-              Iniciar Sesión
-            </button>
-          )}
-        </div>
-      </header>
+    <header className="navbar">
+      <div className="logo">
+        ⚡ <span>Portal MiApp</span>
+      </div>
 
-      <main className="container">
+      {isAuthenticated && (
+        <nav className="nav-links">
+          <NavLink to="/dashboard" className={linkClass}>
+            Dashboard
+          </NavLink>
+          {/* Sin el App Role "Admin" asignado, RequireRole igual bloquea el
+              contenido — el link queda visible a propósito para poder
+              demostrar el guard de autorización en vivo. */}
+          <NavLink to="/admin" className={linkClass}>
+            Admin
+          </NavLink>
+        </nav>
+      )}
+
+      <div>
         {isAuthenticated ? (
-          <div className="card">
-            <div className="avatar">
-              {currentUser?.name
-                ? currentUser.name.charAt(0).toUpperCase()
-                : "U"}
-            </div>
-            <h2>¡Bienvenido, {currentUser?.name || "Usuario"}!</h2>
-            <p className="subtitle">Autenticado con Microsoft Entra ID</p>
-
-            <div className="user-details">
-              <div className="detail-item">
-                <strong>Correo / Usuario:</strong>
-                <span>{currentUser?.username}</span>
-              </div>
-              <div className="detail-item">
-                <strong>Tenant ID:</strong>
-                <code>{currentUser?.tenantId}</code>
-              </div>
-            </div>
-
-            {/* Integración del componente protegido + Interceptor/API */}
-            <hr style={{ margin: "1.5rem 0", borderColor: "#eee" }} />
-            <ProtectedData />
-          </div>
+          <button
+            className="btn btn-logout"
+            onClick={handleLogout}
+            disabled={inProgress !== InteractionStatus.None}
+          >
+            Cerrar Sesión
+          </button>
         ) : (
-          <div className="card text-center">
-            <h2>Acceso Requerido</h2>
-            <p className="subtitle">
-              Para ingresar al sistema debes validar tus credenciales
-              corporativas o institucionales.
-            </p>
-            <button
-              className="btn btn-login btn-lg"
-              onClick={handleLogin}
-              disabled={inProgress !== InteractionStatus.None}
-            >
-              {inProgress !== InteractionStatus.None
-                ? "Cargando..."
-                : "Iniciar Sesión con Microsoft"}
-            </button>
-          </div>
+          <button
+            className="btn btn-login"
+            onClick={handleLogin}
+            disabled={inProgress !== InteractionStatus.None}
+          >
+            Iniciar Sesión
+          </button>
         )}
-      </main>
-    </div>
+      </div>
+    </header>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <div className="layout">
+        <Nav />
+        <main className="container">
+          <Routes>
+            {/* Pública: no está bajo RequireAuth */}
+            <Route path="/" element={<Landing />} />
+
+            {/* Guard de AUTENTICACIÓN: agrupa las rutas que exigen sesión */}
+            <Route element={<RequireAuth />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+
+              {/* Guard de AUTORIZACIÓN anidado: además exige el rol Admin */}
+              <Route element={<RequireRole role="Admin" />}>
+                <Route path="/admin" element={<AdminDemo />} />
+              </Route>
+            </Route>
+
+            <Route path="*" element={<Landing />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }

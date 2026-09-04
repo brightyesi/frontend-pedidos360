@@ -34,6 +34,30 @@ body {
   gap: 0.5rem;
 }
 
+/* Links de navegación entre rutas protegidas */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover {
+  color: #0078d4;
+}
+
+.nav-link.active {
+  color: #0078d4;
+  border-bottom-color: #0078d4;
+}
+
 /* Contenedor */
 .container {
   flex: 1;
