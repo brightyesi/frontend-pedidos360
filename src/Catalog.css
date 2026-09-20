@@ -1,0 +1,175 @@
+/* src/Catalog.css */
+.catalog-container {
+  background: rgba(255, 255, 255, 0.75); /* Fondo blanco con 75% de opacidad */
+  backdrop-filter: blur(12px);            /* Difumina lo que está detrás */
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(206, 235, 199, 0.8);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 32px 0 rgba(37, 71, 32, 0.06);
+}
+
+    .catalog-title {
+    color: #10260D;
+    font-size: 33px;
+    font-weight: 700;
+    margin-bottom: 29px;
+    }
+
+    /* Formulario superior */
+    .catalog-form {
+    background-color: #E6F6E2;
+    border: 1px solid #CEEBC7;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    align-items: center;
+    }
+
+    .catalog-input {
+    padding: 10px 14px;
+    border: 1px solid #CEEBC7;
+    border-radius: 15px;
+    outline: none;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #10260D;
+    transition: border-color 0.2s ease;
+    }
+
+    .catalog-input:focus {
+    border-color: #55AB44;
+    box-shadow: 0 0 0 2px rgba(85, 171, 68, 0.2);
+    }
+
+    .input-name {
+    flex: 1 1 200px;
+    }
+
+    .input-description {
+    flex: 2 1 300px;
+    }
+
+    .input-number {
+    width: 110px;
+    }
+
+    .form-actions {
+    display: flex;
+    gap: 8px;
+    width: 200%;
+    justify-content: center;
+    margin-top: 10px;
+
+    }
+
+    .catalog-button {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    }
+
+    .catalog-button.primary {
+    background-color: #55AB44;
+    color: #ffffff;
+    min-width: 240px;
+    }
+
+    .catalog-button.primary:hover {
+    background-color: #3F8831;
+    }
+
+    .catalog-button.cancel {
+    background-color: #d32f2f;
+    color: #ffffff;
+    }
+
+    .catalog-button.cancel:hover {
+    background-color: #9a0007;
+    }
+
+    /* Grilla de productos */
+    .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    }
+
+    .product-card {
+    background-color: #ffffff;
+    border: 1px solid #CEEBC7;
+    padding: 18px;
+    border-radius: 20px;
+    box-shadow: 4px 2px 6px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-name {
+    color: #254720;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 8px;
+    }
+
+    .product-description {
+    color: #4a5568;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    flex-grow: 1;
+    }
+
+    .product-price {
+    font-weight: 700;
+    font-size: 16px;
+    color: #10260D;
+    margin-bottom: 6px;
+    }
+
+    .stock-available {
+    color: #3F8831;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 16px;
+    }
+
+    .stock-empty {
+    color: #d32f2f;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 16px;
+    }
+
+    .edit-card-button {
+    background-color: #E6F6E2;
+    border: 1px solid #A5DB9A;
+    color: #254720;
+    padding: 8px 14px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    }
+
+    .edit-card-button:hover {
+    background-color: #55AB44;
+    color: #ffffff;
+    border-color: #55AB44;
+    }

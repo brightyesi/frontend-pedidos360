@@ -1,9 +1,4 @@
 // src/App.tsx
-// Estructura de rutas + guards. Este es el archivo que muestra el concepto
-// "guard de ruta": RequireAuth agrupa TODAS las rutas que exigen sesión, y
-// RequireRole las que además exigen un App Role — se agregan más páginas
-// (orders, catalog, ...) anidándolas bajo el guard que corresponda, sin
-// repetir lógica de autenticación/autorización en cada una.
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { useMsal, useIsAuthenticated } from '@azure/msal-react';
 import { InteractionStatus } from '@azure/msal-browser';
@@ -13,6 +8,7 @@ import { RequireRole } from './RequireRole';
 import { Landing } from './Landing';
 import { Dashboard } from './Dashboard';
 import { AdminDemo } from './AdminDemo';
+import { Catalog } from './Catalog'; // 1. IMPORTACIÓN DEL CATÁLOGO
 import './App.css';
 
 function Nav() {
@@ -47,6 +43,12 @@ function Nav() {
           <NavLink to="/dashboard" className={linkClass}>
             Dashboard
           </NavLink>
+
+          {/* 2. ENLACE EN LA BARRA DE NAVEGACIÓN */}
+          <NavLink to="/catalog" className={linkClass}>
+            Catálogo
+          </NavLink>
+
           {/* Sin el App Role "Admin" asignado, RequireRole igual bloquea el
               contenido — el link queda visible a propósito para poder
               demostrar el guard de autorización en vivo. */}
@@ -92,6 +94,9 @@ export default function App() {
             {/* Guard de AUTENTICACIÓN: agrupa las rutas que exigen sesión */}
             <Route element={<RequireAuth />}>
               <Route path="/dashboard" element={<Dashboard />} />
+
+              {/* 3. RUTA DEL CATÁLOGO PROTEGIDA POR AUTENTICACIÓN */}
+              <Route path="/catalog" element={<Catalog />} />
 
               {/* Guard de AUTORIZACIÓN anidado: además exige el rol Admin */}
               <Route element={<RequireRole role="Admin" />}>
