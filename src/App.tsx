@@ -8,7 +8,7 @@ import { RequireRole } from './RequireRole';
 import { Landing } from './Landing';
 import { Dashboard } from './Dashboard';
 import { AdminDemo } from './AdminDemo';
-import { Catalog } from './Catalog'; // 1. IMPORTACIÓN DEL CATÁLOGO
+import { Catalog } from './Catalog'; // 1. IMPORTACIÓN DEL COMPONENTE CATÁLOGO
 import './App.css';
 
 function Nav() {
@@ -44,7 +44,7 @@ function Nav() {
             Dashboard
           </NavLink>
 
-          {/* 2. ENLACE EN LA BARRA DE NAVEGACIÓN */}
+          {/* 2. ENLACE A LA RUTA /catalog EN EL MENÚ */}
           <NavLink to="/catalog" className={linkClass}>
             Catálogo
           </NavLink>
@@ -95,7 +95,7 @@ export default function App() {
             <Route element={<RequireAuth />}>
               <Route path="/dashboard" element={<Dashboard />} />
 
-              {/* 3. RUTA DEL CATÁLOGO PROTEGIDA POR AUTENTICACIÓN */}
+              {/* 3. RUTA /catalog PROTEGIDA POR AUTENTICACIÓN Y ROLES (Admin / Operator) */}
               <Route path="/catalog" element={<Catalog />} />
 
               {/* Guard de AUTORIZACIÓN anidado: además exige el rol Admin */}
