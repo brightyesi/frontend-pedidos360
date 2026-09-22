@@ -1,10 +1,11 @@
-    import React, { useEffect, useState } from 'react';
-    import { useApi } from './useApi';
-    import { ProductFormComponent } from './ProductFormComponent';
-    import { ProductCardComponent } from './ProductCardComponent';
-    import './Catalog.css';
+import React, { useEffect, useState } from 'react';
+import { useMsal } from '@azure/msal-react'; // 1. IMPORTAR MSAL
+import { useApi } from './useApi';
+import { ProductFormComponent } from './ProductFormComponent';
+import { ProductCardComponent } from './ProductCardComponent';
+import './Catalog.css';
 
-    const USE_MOCK_DATA = false; // Cambiar a false al conectar con ms-pedidos360-catalog
+    const USE_MOCK_DATA = true; // Cambiar a false al conectar con ms-pedidos360-catalog
 
     interface Product {
     id?: number;
@@ -21,6 +22,7 @@
     stock?: string;
     }
 
+
     const INITIAL_MOCK_PRODUCTS: Product[] = [
     { id: 1, name: 'Cafetera Espresso', description: 'Máquina de 15 bares para café profesional.', price: 120000, stock: 15 },
     { id: 2, name: 'Café en Grano 1kg', description: 'Variedad arábica tueste medio.', price: 15990, stock: 3 },
@@ -28,7 +30,14 @@
     ];
 
     export function Catalog() {
+    const {instance} = useMsal(); //obtiene instancia de msal
     const api = useApi();
+    //extrae los roles y verifica que si sea admin 
+    const activeAccount= instance.getActiveAccount();
+    const idTokenClaims= activeAccount?.idTokenClaims as {roles?: string[]}| undefined;
+    const userRoles= idTokenClaims?.roles ?? [];
+    const isAdmin = userRoles.includes('admin');
+
     const [products, setProducts] = useState<Product[]>(USE_MOCK_DATA ? INITIAL_MOCK_PRODUCTS : []);
     const [form, setForm] = useState<Omit<Product, 'id'>>({ name: '', description: '', price: 0, stock: 0 });
     const [errors, setErrors] = useState<FormErrors>({});
@@ -123,33 +132,34 @@
     }
 
     return (
-        <div className="catalog-container">
-        <h2 className="catalog-title">📦 Catálogo de Productos e Inventario</h2>
+    <div className="catalog-container">
+    <h2 className="catalog-title">📦 Catálogo de Productos e Inventario</h2>
 
-        {/* Subcomponente Formulario */}
+    {/* 4. CONDICIONAL: Solo mostrar el formulario de creación/edición si el usuario es Admin */}
+    {isAdmin && (
         <ProductFormComponent
-            form={form}
-            errors={errors}
-            editingId={editingId}
-            onChange={setForm}
-            onSubmit={handleSubmit}
-            onCancel={resetForm}
+        form={form}
+        errors={errors}
+        editingId={editingId}
+        onChange={setForm}
+        onSubmit={handleSubmit}
+        onCancel={resetForm}
         />
+    )}
 
-        {loading ? (
-            <p>Cargando productos desde Oracle DB...</p>
-        ) : (
-            /* Subcomponentes Tarjetas en Grilla */
-            <div className="catalog-grid">
-            {products.map((product) => (
-                <ProductCardComponent
-                key={product.id ?? product.name}
-                product={product}
-                onEdit={handleEdit}
-                />
-            ))}
-            </div>
-        )}
+    {loading ? (
+        <p>Cargando productos desde Oracle DB...</p>
+    ) : (
+        <div className="catalog-grid">
+        {products.map((product) => (
+            <ProductCardComponent
+            key={product.id ?? product.name}
+            product={product}
+            onEdit={isAdmin ? handleEdit : undefined} // Opcional: Deshabilita el botón de edición en la tarjeta si no es Admin
+            />
+        ))}
         </div>
-    );
-    }
+    )}
+    </div>
+);
+}
