@@ -1,0 +1,220 @@
+/* src/Login.css */
+
+.login-page {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 2rem 1rem;
+}
+
+/* Blobs decorativos de fondo */
+.login-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  z-index: 0;
+}
+
+.login-blob-1 {
+  width: 340px;
+  height: 340px;
+  background: #a8e08f;
+  top: -60px;
+  left: -40px;
+  animation: blob-drift-1 16s ease-in-out infinite alternate;
+}
+
+.login-blob-2 {
+  width: 420px;
+  height: 420px;
+  background: #cdeec2;
+  bottom: -100px;
+  right: -60px;
+  animation: blob-drift-2 20s ease-in-out infinite alternate;
+}
+
+.login-blob-3 {
+  width: 220px;
+  height: 220px;
+  background: #55ab44;
+  top: 40%;
+  right: 12%;
+  opacity: 0.25;
+  animation: blob-drift-3 13s ease-in-out infinite alternate;
+}
+
+/* Tarjeta glassmorphism */
+.login-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 16px 48px rgba(37, 71, 32, 0.18);
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  animation: login-card-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.login-logo {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1.25rem auto;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #55ab44 0%, #2f7a24 100%);
+  color: #ffffff;
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(47, 122, 36, 0.35);
+  animation: logo-float 3.2s ease-in-out infinite;
+}
+
+.login-brand {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #3f8831;
+  background: rgba(230, 246, 226, 0.8);
+  border: 1px solid #ceebc7;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+.login-title {
+  color: #10260d;
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
+}
+
+.login-subtitle {
+  color: #4a5568;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 1.75rem 0;
+}
+
+.login-note {
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin-top: 1.25rem;
+}
+
+/* Botón de Microsoft */
+.btn-microsoft {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background-color: #ffffff;
+  color: #323130;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+}
+
+.btn-microsoft:hover {
+  background-color: #f5f5f4;
+  border-color: #b9bdc1;
+}
+
+.btn-microsoft:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-microsoft-icon {
+  flex-shrink: 0;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* Micro-interacciones del botón Microsoft */
+.btn-microsoft {
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-microsoft:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.btn-microsoft:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Keyframes */
+@keyframes blob-drift-1 {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(60px, 40px) scale(1.15);
+  }
+}
+
+@keyframes blob-drift-2 {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-50px, -45px) scale(0.9);
+  }
+}
+
+@keyframes blob-drift-3 {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-45px, 35px) scale(1.25);
+  }
+}
+
+@keyframes login-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes logo-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* Accesibilidad: sin animaciones si el usuario las desactiva */
+@media (prefers-reduced-motion: reduce) {
+  .login-blob,
+  .login-card,
+  .login-logo,
+  .btn-microsoft {
+    animation: none;
+    transition: none;
+  }
+}

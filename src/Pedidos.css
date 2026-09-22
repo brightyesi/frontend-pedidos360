@@ -1,0 +1,313 @@
+/* src/Pedidos.css */
+
+.pedidos-container {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(206, 235, 199, 0.8);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 32px 0 rgba(37, 71, 32, 0.06);
+  animation: pedidos-in 0.5s ease-out both;
+}
+
+.pedidos-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.pedidos-title {
+  color: #10260D;
+  font-size: 33px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.pedidos-subtitle {
+  color: #4a5568;
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+.pedido-form {
+  background-color: #E6F6E2;
+  border: 1px solid #CEEBC7;
+  padding: 20px;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  gap: 12px;
+  margin-bottom: 30px;
+  align-items: end;
+}
+
+.pedido-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #254720;
+  margin-bottom: 4px;
+}
+
+.pedido-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #CEEBC7;
+  border-radius: 15px;
+  outline: none;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #10260D;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pedido-input:focus {
+  border-color: #55AB44;
+  box-shadow: 0 0 0 2px rgba(85, 171, 68, 0.2);
+}
+
+.input-error {
+  border-color: #d32f2f !important;
+}
+
+.error-text {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.pedidos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.pedidos-empty {
+  color: #4a5568;
+  text-align: center;
+  padding: 24px;
+  border: 2px dashed #CEEBC7;
+  border-radius: 16px;
+}
+
+.pedido-card {
+  background-color: #ffffff;
+  border: 1px solid #CEEBC7;
+  border-left-width: 6px;
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 4px 2px 6px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: pedido-card-in 0.45s ease-out both;
+}
+
+.pedido-card:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 12px 24px rgba(37, 71, 32, 0.12);
+}
+
+.pedido-card-pendiente {
+  border-left-color: #f0ad4e;
+}
+
+.pedido-card-enviado {
+  border-left-color: #0078d4;
+}
+
+.pedido-card-completado {
+  border-left-color: #55AB44;
+}
+
+.pedido-card-cancelado {
+  border-left-color: #d32f2f;
+}
+
+.pedido-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.pedido-numero {
+  font-weight: 700;
+  color: #10260D;
+  font-size: 16px;
+}
+
+.pedido-estado {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.pedido-estado.pendiente {
+  background: #fdf0dd;
+  color: #b26a00;
+  animation: estado-pulse 1.8s ease-in-out infinite;
+}
+
+.pedido-estado.enviado {
+  background: #e2effb;
+  color: #005a9e;
+}
+
+.pedido-estado.completado {
+  background: #E6F6E2;
+  color: #3F8831;
+}
+
+.pedido-estado.cancelado {
+  background: #fde8e8;
+  color: #9a0007;
+}
+
+.pedido-fecha,
+.pedido-direccion {
+  font-size: 13px;
+  color: #4a5568;
+  margin-bottom: 6px;
+}
+
+.pedido-items {
+  color: #254720;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  flex-grow: 1;
+}
+
+.pedido-total {
+  font-weight: 700;
+  font-size: 16px;
+  color: #10260D;
+  margin-bottom: 14px;
+}
+
+.pedido-cancelar-button {
+  background-color: #fde8e8;
+  border: 1px solid #f5b5b5;
+  color: #9a0007;
+  padding: 8px 14px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.pedido-cancelar-button:hover {
+  background-color: #d32f2f;
+  color: #ffffff;
+  border-color: #d32f2f;
+}
+
+/* Reutiliza botones del catálogo */
+.catalog-button {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.catalog-button.primary {
+  background-color: #55AB44;
+  color: #ffffff;
+  min-width: 240px;
+  padding: 10px 24px;
+}
+
+.catalog-button.primary:hover {
+  background-color: #3F8831;
+}
+
+@media (max-width: 768px) {
+  .pedido-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Fake loader mientras llegan los pedidos */
+.pedidos-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.pedidos-loading .pedidos-skeleton {
+  height: 96px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, #eef6ec 25%, #e2f0df 50%, #eef6ec 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite;
+}
+
+/* Keyframes */
+@keyframes pedidos-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pedido-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes estado-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(240, 173, 78, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(240, 173, 78, 0);
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Accesibilidad: sin animaciones si el usuario las desactiva */
+@media (prefers-reduced-motion: reduce) {
+  .pedidos-container,
+  .pedido-card,
+  .pedido-estado,
+  .pedidos-loading .pedidos-skeleton {
+    animation: none;
+  }
+}

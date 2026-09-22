@@ -9,6 +9,7 @@ import { Landing } from './Landing';
 import { Dashboard } from './Dashboard';
 import { AdminDemo } from './AdminDemo';
 import { Catalog } from './Catalog'; // 1. IMPORTACIÓN DEL COMPONENTE CATÁLOGO
+import { Pedidos } from './Pedidos'; // IMPORTACIÓN DEL COMPONENTE PEDIDOS
 import './App.css';
 
 function Nav() {
@@ -42,6 +43,11 @@ function Nav() {
         <nav className="nav-links">
           <NavLink to="/dashboard" className={linkClass}>
             Dashboard
+          </NavLink>
+
+          {/* Enlace a la pestaña Mis Pedidos */}
+          <NavLink to="/orders" className={linkClass}>
+            Mis Pedidos
           </NavLink>
 
           {/* 2. ENLACE A LA RUTA /catalog EN EL MENÚ */}
@@ -94,6 +100,9 @@ export default function App() {
             {/* Guard de AUTENTICACIÓN: agrupa las rutas que exigen sesión */}
             <Route element={<RequireAuth />}>
               <Route path="/dashboard" element={<Dashboard />} />
+
+              {/* Ruta Mis Pedidos PROTEGIDA POR AUTENTICACIÓN */}
+              <Route path="/orders" element={<Pedidos />} />
 
               {/* 3. RUTA /catalog PROTEGIDA POR AUTENTICACIÓN Y ROLES (Admin / Operator) */}
               <Route path="/catalog" element={<Catalog />} />
